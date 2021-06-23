@@ -263,5 +263,9 @@
       (beginning-of-line 0)
       (org-remove-empty-drawer-at "LOGBOOK" (point))))
 
+  (defun dyg/verify-refile-target ()
+    "Exclude todo keywords with a done state from refile targets"
+    (not (member (nth 2 (org-heading-components)) org-done-keywords)))
+
 
 )
