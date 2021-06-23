@@ -37,6 +37,8 @@
 
 ;; don't set bookmarks on a capture
 (setf org-capture-bookmark             nil)
+;; don't fontify the refile created bookmarks
+(setf bookmark-fontify                 nil)
 
 ; Exclude DONE state tasks from refile targets
 (setf org-refile-target-verify-function 'dyg/verify-refile-target)
@@ -44,6 +46,7 @@
 ;; never split headlines
 (setf org-M-RET-may-split-line           nil)
 (setf org-insert-heading-respect-content 'expert)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;; Org Agenda Config ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; orgmode organization stuff
 (setq-default org-default-todo-file "~/sync/org/refile.org")
@@ -54,7 +57,6 @@
 
 (setq org-agenda-files '("~/sync/org/research.org"
                          "~/sync/org/meetings.org"
-                         "~/sync/org/refile.org"
                          "~/sync/org/projects.org"
                          "~/sync/org/refile.org"))
 
@@ -76,16 +78,80 @@
         ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
         ("DONE" ("WAITING") ("CANCELLED") ("HOLD"))))
 
+(setq org-agenda-compact-blocks t)
+
+;; Custom agenda command definitions
+(setq org-agenda-custom-commands
+      '((" " "Agenda"
+        ((agenda "" nil)
+         (tags "REFILE"
+               ((org-agenda-overriding-header "Tasks to Refile")
+                (org-tags-match-list-sublevels nil)))
+         (tags-todo "-CANCELLED/!"
+                    ((org-agenda-overriding-header "Stuck Projects")
+                     (org-agenda-skip-function     'dyg/skip-non-stuck-projects)
+                     (org-agenda-sorting-strategy  '(category-keep))))
+         (tags-todo "-HOLD-CANCELLED/!"
+                    ((org-agenda-overriding-header "Projects")
+                     (org-agenda-skip-function      'dyg/skip-non-projects)
+                     (org-tags-match-list-sublevels 'indented)
+                     (org-agenda-sorting-strategy   '(category-keep))))
+         (tags-todo "-CANCELLED/!NEXT"
+                    ((org-agenda-overriding-header (concat "Project Next Tasks"
+                                                           (if dyg/hide-scheduled-and-waiting-next-tasks
+                                                               ""
+                                                             " (including WAITING and SCHEDULED tasks)")))
+                     (org-agenda-skip-function 'dyg/skip-projects-and-habits-and-single-tasks)
+                     (org-tags-match-list-sublevels t)
+                     (org-agenda-todo-ignore-scheduled dyg/hide-scheduled-and-waiting-next-tasks)
+                     (org-agenda-todo-ignore-deadlines dyg/hide-scheduled-and-waiting-next-tasks)
+                     (org-agenda-todo-ignore-with-date dyg/hide-scheduled-and-waiting-next-tasks)
+                     (org-agenda-sorting-strategy      '(todo-state-down effort-up category-keep))))
+         (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
+                    ((org-agenda-overriding-header (concat "Project Subtasks"
+                                                           (if dyg/hide-scheduled-and-waiting-next-tasks
+                                                               ""
+                                                             " (including WAITING and SCHEDULED tasks)")))
+                     (org-agenda-skip-function 'dyg/skip-non-project-tasks)
+                     (org-agenda-todo-ignore-scheduled dyg/hide-scheduled-and-waiting-next-tasks)
+                     (org-agenda-todo-ignore-deadlines dyg/hide-scheduled-and-waiting-next-tasks)
+                     (org-agenda-todo-ignore-with-date dyg/hide-scheduled-and-waiting-next-tasks)
+                     (org-agenda-sorting-strategy      '(category-keep))))
+         (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
+                    ((org-agenda-overriding-header (concat "Standalone Tasks"
+                                                           (if dyg/hide-scheduled-and-waiting-next-tasks
+                                                               ""
+                                                             " (including WAITING and SCHEDULED tasks)")))
+                     (org-agenda-skip-function 'dyg/skip-project-tasks)
+                     (org-agenda-todo-ignore-scheduled dyg/hide-scheduled-and-waiting-next-tasks)
+                     (org-agenda-todo-ignore-deadlines dyg/hide-scheduled-and-waiting-next-tasks)
+                     (org-agenda-todo-ignore-with-date dyg/hide-scheduled-and-waiting-next-tasks)
+                     (org-agenda-sorting-strategy      '(category-keep))))
+         (tags-todo "-CANCELLED+WAITING|HOLD/!"
+                    ((org-agenda-overriding-header (concat "Waiting and Postponed Tasks"
+                                                           (if dyg/hide-scheduled-and-waiting-next-tasks
+                                                               ""
+                                                             " (including WAITING and SCHEDULED tasks)")))
+                     (org-agenda-skip-function      'dyg/skip-non-tasks)
+                     (org-tags-match-list-sublevels nil)
+                     (org-agenda-todo-ignore-scheduled dyg/hide-scheduled-and-waiting-next-tasks)
+                     (org-agenda-todo-ignore-deadlines dyg/hide-scheduled-and-waiting-next-tasks)))
+         (tags "-REFILE/"
+               ((org-agenda-overriding-header "Tasks to Archive")
+                (org-agenda-skip-function 'dyg/skip-non-archivable-tasks)
+                (org-tags-match-list-sublevels nil))))
+        nil)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;; Org Capture Config ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq org-capture-templates
       '(("t" "todo" entry (file org-default-todo-file)
-         "* TODO %?\n" :clock-in t :clock-resume t)
+         "* TODO %?\n - Todo made on %U \\\\ \n" :clock-in t :clock-resume t)
         ("r" "respond" entry (file org-default-todo-file)
          "* NEXT Respond to %^{Prompt}%:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
         ("n" "note" entry (file org-default-todo-file)
-         "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
+         "* %? :NOTE:\n - Note taken on %U \\\\ \n" :clock-in t :clock-resume t)
         ("i" "idea" entry (file org-default-todo-file)
-         "* %? :IDEA:\n%U\n" :clock-in t :clock-resume t)
+         "* %? :IDEA:\n - Idea taken on %U \\\\ \n" :clock-in t :clock-resume t)
         ("m" "meeting" entry (file org-default-todo-file)
          "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
         ))

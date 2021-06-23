@@ -75,6 +75,4 @@ Each entry is either:
   "Initialize and configure org"
   (use-package org
     :config
-    (progn
-      )
     ))
