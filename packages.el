@@ -76,7 +76,5 @@ Each entry is either:
   (use-package org
     :config
     (progn
-      (setq org-M-RET-may-split-line nil) ;; never split headlines
-      (setq org-insert-heading-respect-content t)
       )
     ))

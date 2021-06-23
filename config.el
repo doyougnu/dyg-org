@@ -36,25 +36,21 @@
 
 ;; never split headlines
 (setf org-M-RET-may-split-line           nil)
-(setq org-use-speed-commands
-      (lambda () (and (looking-at org-outline-regexp) (looking-back "^\**"))))
 (setf org-insert-heading-respect-content 'expert)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Org Agenda Config ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; orgmode organization stuff
 (setq-default org-default-todo-file "~/sync/org/refile.org")
-(setq-default org-default-notes-file "~/sync/org/refile.org")
 
 (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
                           (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "MEETING")))
 
 
 (setq org-agenda-files '("~/sync/org/research.org"
-                         "~/sync/org/recurring.org"
                          "~/sync/org/meetings.org"
-                         "~/sync/org/projects.org"
                          "~/sync/org/refile.org"
-                         "~/sync/org/lab-notebook.org"))
+                         "~/sync/org/projects.org"
+                         "~/sync/org/refile.org"))
 
 
 (setq org-tag-alist '(("research"     . ?r)
@@ -63,6 +59,7 @@
                       ("chores"       . ?c)
                       ("side-project" . ?s)
                       ("longterm"     . ?l)))
+
 
 (setq org-todo-state-tags-triggers
       '(("CANCELLED" ("CANCELLED" . t))
@@ -75,27 +72,24 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Org Capture Config ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Define the custum capture templates
-;; See: http://doc.norang.ca/org-mode.html
 (setq org-capture-templates
-      '(("i" "Idea" entry (file org-default-notes-file)
-         "* %? :idea: \n%t")
-
-        ("j" "Lab"
-         entry (file+olp+datetree "~/sync/org/lab-notebook.org")
-         "** %^{Heading}")
-
-        ("s" "Lab with sub-goals"
-         entry (file+olp+datetree "~/sync/org/lab-notebook.org")
-         "** %^{Heading}")
-
-        ("t" "Todo" entry (file+olp+datetree org-default-todo-file)
-         "** TODO %? :oneOff: \n")))
+      '(("t" "todo" entry (file org-default-todo-file)
+         "* TODO %?\n" :clock-in t :clock-resume t)
+        ("r" "respond" entry (file org-default-todo-file)
+         "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+        ("n" "note" entry (file org-default-todo-file)
+         "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+        ("i" "idea" entry (file org-default-todo-file)
+         "* %? :IDEA:\n%U\n%a\n" :clock-in t :clock-resume t)
+        ("m" "meeting" entry (file org-default-todo-file)
+         "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+        ))
 
 
 (setq org-refile-targets (quote ((nil :maxlevel . 2)
                                  (org-agenda-files :maxlevel . 2))))
 
-
+(add-hook 'org-clock-out-hook 'dyg/remove-empty-drawer-on-clock-out 'append)
 ;;;;;;;;;;;;;;;;;;;;;;;;; Org Publish Config ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq org-publish-project-alist
       '(("org-notes"

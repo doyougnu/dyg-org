@@ -256,4 +256,12 @@
           nil
         next-headline)))
 
+  ;; Remove empty LOGBOOK drawers on clock out
+  (defun dyg/remove-empty-drawer-on-clock-out ()
+    (interactive)
+    (save-excursion
+      (beginning-of-line 0)
+      (org-remove-empty-drawer-at "LOGBOOK" (point))))
+
+
 )
