@@ -1,9 +1,9 @@
-;;; config.el --- scheme Layer Configuration File for Spacemacs
+;;; config.el --- My personal Org Config Layer for Spacemacs
 ;;
 ;; Copyright (c) 2012-2018 Sylvain Benner & Contributors
 ;;
-;; Author: Sylvain Benner <sylvain.benner@gmail.com>
-;; URL: https://github.com/syl20bnr/spacemacs
+;; Author: Jeffrey Young <youngjef@oregonstate.edu>
+;; URL: https://github.com/doyougnu/dyg-org
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
@@ -107,7 +107,7 @@
             (save-excursion
               (forward-line 1)
               (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ NEXT " subtree-end t))
-                (unless (member "WAITING" (org-get-tags-at))
+                (unless (member "WAITING" (org-get-tags))
                   (setq has-next t))))
             (if has-next
                 nil
@@ -126,7 +126,7 @@
               (save-excursion
                 (forward-line 1)
                 (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ NEXT " subtree-end t))
-                  (unless (member "WAITING" (org-get-tags-at))
+                  (unless (member "WAITING" (org-get-tags))
                     (setq has-next t))))
               (if has-next
                   next-headline
@@ -183,7 +183,7 @@
          ((org-is-habit-p)
           next-headline)
          ((and dyg/hide-scheduled-and-waiting-next-tasks
-               (member "WAITING" (org-get-tags-at)))
+               (member "WAITING" (org-get-tags)))
           next-headline)
          ((dyg/is-project-p)
           next-headline)
@@ -278,4 +278,13 @@
             (setq parent-task (point))))
         (goto-char parent-task)
         parent-task)))
+
+  (defun dyg/org-open-default-todo-file ()
+    "Open the default org notes file"
+    (interactive)
+    (if (file-exists-p org-default-todo-file)
+        (find-file-other-window org-default-todo-file)
+      (message "Org Default notes file not found. Set it with 'org-default-todo-file")
+      ))
+
 )

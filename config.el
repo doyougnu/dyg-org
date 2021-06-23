@@ -3,7 +3,7 @@
 ;; Copyright (c) 2012-2018 Sylvain Benner & Contributors
 ;;
 ;; Author: Jeffrey Young (doyougnu) <youngjef@oregonstate.edu>
-;; URL: https://github.com/syl20bnr/spacemacs
+;; URL: https://github.com/doyougnu/dyg-org
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
@@ -33,7 +33,7 @@
 (setf org-confirm-babel-evaluate       nil)
 (setf org-edit-src-content-indentation 2)
 (setf org-use-fast-todo-selection      t)
-(setf org-refile-use-outline-path      t)
+(setf org-refile-use-outline-path      'file-full-path)
 
 ;; don't set bookmarks on a capture
 (setf org-capture-bookmark             nil)
@@ -57,6 +57,7 @@
 
 (setq org-agenda-files '("~/sync/org/research.org"
                          "~/sync/org/meetings.org"
+                         "~/sync/org/oneoff.org"
                          "~/sync/org/projects.org"
                          "~/sync/org/refile.org"))
 
@@ -145,22 +146,20 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;; Org Capture Config ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq org-capture-templates
       '(("t" "todo" entry (file org-default-todo-file)
-         "* TODO %?\n - Todo made on %U \\\\ \n" :clock-in t :clock-resume t)
+         "* TODO %?\n - Todo made on %U \\\\ \n" :clock-resume t)
         ("r" "respond" entry (file org-default-todo-file)
-         "* NEXT Respond to %^{Prompt}%:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+         "* NEXT Respond to %^{Prompt}%:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-resume t :immediate-finish t)
         ("n" "note" entry (file org-default-todo-file)
-         "* %? :NOTE:\n - Note taken on %U \\\\ \n" :clock-in t :clock-resume t)
+         "* %? :NOTE:\n - Note taken on %U \\\\ \n" :clock-resume t)
         ("i" "idea" entry (file org-default-todo-file)
-         "* %? :IDEA:\n - Idea taken on %U \\\\ \n" :clock-in t :clock-resume t)
+         "* %? :IDEA:\n - Idea taken on %U \\\\ \n" :clock-resume t)
         ("m" "meeting" entry (file org-default-todo-file)
-         "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+         "* MEETING with %? :MEETING:\n%U" :clock-resume t)
         ))
 
 
 (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                  (org-agenda-files :maxlevel . 9))))
-
-(add-hook 'org-clock-out-hook 'dyg/remove-empty-drawer-on-clock-out 'append)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Org Publish Config ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -5,4 +5,5 @@
 * Description
 This is my private layer for configuration ~org-mode~. Most of the customization
 comes from http://doc.norang.ca/org-mode.html and I've only modified and removed
-stuff for my needs. There is little docs, you're expected to read the code.
+stuff for my needs. There are little docs, you're expected to read the code if
+you want to make use of this.
