@@ -33,7 +33,7 @@
 (setf org-confirm-babel-evaluate       nil)
 (setf org-edit-src-content-indentation 2)
 (setf org-use-fast-todo-selection      t)
-(setf org-refile-use-outline-path      'file-full-path)
+(setf org-refile-use-outline-path      t)
 
 ;; don't set bookmarks on a capture
 (setf org-capture-bookmark             nil)
@@ -45,7 +45,7 @@
 
 ;; never split headlines
 (setf org-M-RET-may-split-line           nil)
-(setf org-insert-heading-respect-content 'expert)
+(setf org-insert-heading-respect-content t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Org Agenda Config ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; orgmode organization stuff
@@ -57,6 +57,7 @@
 
 (setq org-agenda-files '("~/sync/org/research.org"
                          "~/sync/org/meetings.org"
+                         "~/sync/org/personal.org"
                          "~/sync/org/oneoff.org"
                          "~/sync/org/projects.org"
                          "~/sync/org/refile.org"))
