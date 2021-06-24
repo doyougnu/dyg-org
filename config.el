@@ -66,7 +66,7 @@
                       ("job"          . ?j)
                       ("dnd"          . ?d)
                       ("chores"       . ?c)
-                      ("side-project" . ?s)
+                      ("dev-setup"    . ?s)
                       ("longterm"     . ?l)))
 
 
@@ -146,15 +146,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;; Org Capture Config ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq org-capture-templates
       '(("t" "todo" entry (file org-default-todo-file)
-         "* TODO %?\n - Todo made on %U \\\\ \n" :clock-resume t)
+         "* TODO %?\n - Todo made on %U \\\\ \n" :clock-resume t :empty-lines 1)
+        ("o" "oneoff" entry (file org-default-todo-file)
+         "* NEXT %?\n - OneOff made on %U \\\\ \n" :clock-resume t :empty-lines 1)
         ("r" "respond" entry (file org-default-todo-file)
-         "* NEXT Respond to %^{Prompt}%:from on %:subject\nSCHEDULED: %t\n%U\n" :clock-resume t :immediate-finish t)
+         "* NEXT Respond to %^{Prompt}%:from on %:subject\nSCHEDULED: %t\n%U\n" :clock-resume t :immediate-finish t :empty-lines 1)
         ("n" "note" entry (file org-default-todo-file)
-         "* %? :NOTE:\n - Note taken on %U \\\\ \n" :clock-resume t)
+         "* %? :NOTE:\n - Note taken on %U \\\\ \n" :clock-resume t :empty-lines 1)
         ("i" "idea" entry (file org-default-todo-file)
-         "* %? :IDEA:\n - Idea taken on %U \\\\ \n" :clock-resume t)
+         "* %? :IDEA:\n - Idea taken on %U \\\\ \n" :clock-resume t :empty-lines 1)
         ("m" "meeting" entry (file org-default-todo-file)
-         "* MEETING with %? :MEETING:\n%U" :clock-resume t)
+         "* MEETING with %? :MEETING:\n%U" :clock-resume t :empty-lines 1)
         ))
 
 
