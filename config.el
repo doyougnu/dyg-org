@@ -163,6 +163,11 @@
 (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                  (org-agenda-files :maxlevel . 9))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;; Org Archiving Config ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq-default org-archive-default-directory "~/sync/org/.archive")
+(setq org-archive-location (concat
+                            org-archive-default-directory
+                            "%s_archive::* Archived Tasks"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Org Publish Config ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq org-publish-project-alist

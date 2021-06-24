@@ -7,3 +7,20 @@ This is my private layer for configuring ~org-mode~ in spacemacs. Most of the
 customization comes from http://doc.norang.ca/org-mode.html and I've only
 modified and removed stuff for my needs. There are little docs, you're expected
 to read the code if you want to make use of this.
+
+* How to install
+  Roughly:
+  1. ~cd~ to ~private~ directory in your ~.emacs.d~ directory
+  2. ~git clone git@github.com:doyougnu/dyg-org.git~
+  3. add ~dyg-org~ to your spacemacs layers
+
+* How to edit/alter/hack
+  1. ~cd~ to ~/.emacs.d/private/dyg-org/~
+  2. pick whatever file you want to tweak ~configs.el~ for variables and config
+     stuff. ~funcs.el~ for functions that ~config.el~ uses or just other stuff
+     you want in /your/ layer.
+  3. make your changes to the source code
+  4. run ~M-x emacs-lisp-byte-compile-and-load~ or ~SPC SPC
+     emacs-lisp-byte-compile-and-load~
+  5. Then reload your ~.spacemacs~ file by calling ~Reload Configuration~. In
+     evil spacemacs this is bound to ~SPC f e R~.
