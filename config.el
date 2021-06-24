@@ -148,7 +148,7 @@
       '(("t" "todo" entry (file org-default-todo-file)
          "* TODO %?\n - Todo made on %U \\\\ \n" :clock-resume t)
         ("r" "respond" entry (file org-default-todo-file)
-         "* NEXT Respond to %^{Prompt}%:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-resume t :immediate-finish t)
+         "* NEXT Respond to %^{Prompt}%:from on %:subject\nSCHEDULED: %t\n%U\n" :clock-resume t :immediate-finish t)
         ("n" "note" entry (file org-default-todo-file)
          "* %? :NOTE:\n - Note taken on %U \\\\ \n" :clock-resume t)
         ("i" "idea" entry (file org-default-todo-file)
