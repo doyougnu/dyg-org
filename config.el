@@ -58,7 +58,6 @@
 (setq org-agenda-files '("~/sync/org/research.org"
                          "~/sync/org/meetings.org"
                          "~/sync/org/personal.org"
-                         "~/sync/org/oneoff.org"
                          "~/sync/org/projects.org"
                          "~/sync/org/refile.org"))
 
