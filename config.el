@@ -47,6 +47,9 @@
 (setf org-M-RET-may-split-line           nil)
 (setf org-insert-heading-respect-content t)
 
+;; use firefox
+(setf browse-url-browser-function 'browse-url-firefox)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;; Org Agenda Config ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; orgmode organization stuff
 (setq-default org-default-todo-file "~/sync/org/refile.org")
@@ -160,8 +163,7 @@
         ))
 
 
-(setq org-refile-targets (quote ((nil :maxlevel . 9)
-                                 (org-agenda-files :maxlevel . 9))))
+(setq org-refile-targets (quote ((org-agenda-files :maxlevel . 9))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Org Archiving Config ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq-default org-archive-default-directory "~/sync/org/.archive")
