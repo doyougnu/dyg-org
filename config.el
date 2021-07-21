@@ -60,6 +60,7 @@
 
 (setq org-agenda-files '("~/sync/org/research.org"
                          "~/sync/org/personal.org"
+                         "~/sync/org/long-term.org"
                          "~/sync/org/job/"
                          "~/sync/org/projects.org"
                          "~/sync/org/refile.org"))
@@ -164,6 +165,8 @@
 
 
 (setq org-refile-targets (quote ((org-agenda-files :maxlevel . 9))))
+(setq org-refile-use-outline-path 'file)
+(setq org-outline-path-complete-in-steps nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; Org Archiving Config ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq-default org-archive-default-directory "~/sync/org/.archive")
